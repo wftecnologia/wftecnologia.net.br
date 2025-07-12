@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WF Tecnologia | Infraestrutura de TI</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1,h2,h3,h4 {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+  <script>
+    // Bloqueio simples para dev tools e contexto
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && ['U', 'S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header com fundo semi-transparente e blur -->
+  <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-3 select-none">
+        <img src="logo_wf_transparente.png" alt="Logo WF" class="h-12 w-auto" />
+        <h1 class="text-3xl font-bold text-blue-600 tracking-tight">WF <span class="text-blue-400">Tecnologia</span></h1>
+      </a>
+
+<!-- Menu Responsivo -->
+<div class="md:hidden">
+  <button id="btn-menu" class="text-blue-600 focus:outline-none">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<nav id="menu" class="hidden flex-col gap-4 bg-white p-4 rounded-lg shadow-lg absolute top-20 right-6 z-50 md:flex md:flex-row md:static md:shadow-none md:bg-transparent md:p-0 md:rounded-none">
+  <a href="index.html#servicos" class="hover:text-blue-600 transition">Serviços</a>
+  <a href="index.html#seguranca" class="hover:text-blue-600 transition">Segurança</a>
+  <a href="index.html#sobre" class="hover:text-blue-600 transition">Sobre</a>
+  <a href="index.html#contato" class="hover:text-blue-600 transition">Contato</a>
+</nav>
+
+    </div>
+  </header>
+
+  <!-- Página dedicada à importância da cibersegurança em 2025 -->
+<section id="cyberseguranca" class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-8 text-gray-800 text-center">Por que investir em Cibersegurança em 2025?</h2>
+    <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+      <p>
+        Em 2025, a cibersegurança não é mais uma opção ou diferencial competitivo. Ela é um requisito essencial para a sobrevivência e a continuidade de qualquer empresa, independentemente do porte ou segmento. O aumento exponencial de ataques virtuais, a sofisticação das ameaças digitais e a dependência crítica das organizações em sistemas conectados fazem da segurança da informação um pilar estratégico.
+      </p>
+      <h3 class="text-2xl font-semibold text-gray-800 mt-8">Riscos Corporativos Reais</h3>
+      <p>
+        Empresas que negligenciam investimentos em cibersegurança estão expostas a:
+      </p>
+      <ul class="list-disc list-inside ml-4">
+        <li>Vazamentos de dados sensíveis (de clientes, financeiros, operacionais);</li>
+        <li>Sequestro de informações (ransomware) com prejuízos milionários;</li>
+        <li>Paralisação de operações críticas (indisponibilidade de sistemas);</li>
+        <li>Multas e penalidades devido à LGPD e normas regulatórias;</li>
+        <li>Danos à reputação da marca e perda de clientes.</li>
+      </ul>
+      <h3 class="text-2xl font-semibold text-gray-800 mt-8">Impactos no Negócio</h3>
+      <p>
+        Os impactos de um incidente de segurança vão muito além do financeiro. Incluem perda de confiança do mercado, dificuldade em manter contratos e compromissos legais, e o comprometimento de planos de expansão. Cibersegurança é, portanto, um investimento em continuidade e estabilidade.
+      </p>
+      <h3 class="text-2xl font-semibold text-gray-800 mt-8">Soluções de Mercado</h3>
+      <p>
+        O mercado oferece uma variedade de soluções modernas e integradas:
+      </p>
+      <ul class="list-disc list-inside ml-4">
+        <li>Firewalls de próxima geração (NGFW) com inspeção profunda de pacotes;</li>
+        <li>Antivírus corporativo gerenciado e monitoramento 24/7;</li>
+        <li>Controle de acesso, segmentação de rede e autenticação multifator (MFA);</li>
+        <li>Criptografia de dados em trânsito e em repouso;</li>
+        <li>Backups automáticos e planos de recuperação de desastres (DRP);</li>
+        <li>Políticas de conformidade com a LGPD e treinamentos para colaboradores.</li>
+      </ul>
+      <h3 class="text-2xl font-semibold text-gray-800 mt-8">Como a WF Tecnologia Pode Ajudar</h3>
+      <p>
+        A <strong>WF Tecnologia</strong> é especializada em infraestrutura e segurança da informação. Oferecemos soluções sob medida para proteger seu ambiente digital, com consultoria especializada, implantação de ferramentas modernas e suporte constante.
+      </p>
+      <p>
+        Nossos serviços englobam:
+      </p>
+      <ul class="list-disc list-inside ml-4">
+        <li>Auditoria de riscos e vulnerabilidades;</li>
+        <li>Projeto e implantação de políticas de segurança;</li>
+        <li>Monitoramento e resposta a incidentes;</li>
+        <li>Capacitação e conscientização de equipes;</li>
+        <li>Integração com LGPD e demais normas aplicáveis.</li>
+      </ul>
+      <p>
+        Investir em cibersegurança é proteger seu futuro. Fale com a WF Tecnologia e fortaleça sua defesa digital.
+      </p>
+      <div class="mt-10 text-center">
+        <a href="index.html#contato" class="inline-block bg-blue-600 text-white font-semibold py-4 px-10 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1 hover:scale-105 motion-reduce:transform-none">
+  Consultar Especialista
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="text-center my-10">
+  <a href="index.html" class="inline-block bg-gray-300 text-gray-800 font-semibold py-3 px-8 rounded-full hover:bg-gray-400 transition">
+    ← Voltar à Página Inicial
+  </a>
+</div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white text-center py-6">
+    <p class="text-sm">&copy; 2025 WF Tecnologia • Todos os direitos reservados</p>
+  </footer>
+<script>
+  const btn = document.getElementById("btn-menu");
+  const menu = document.getElementById("menu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+</body>
+</html>
