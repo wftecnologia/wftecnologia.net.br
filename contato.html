@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WF Tecnologia | Infraestrutura de TI</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1,h2,h3,h4 {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+  <script>
+    // Bloqueio simples para dev tools e contexto
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && ['U', 'S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header com fundo semi-transparente e blur -->
+  <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-3 select-none">
+        <img src="logo_wf_transparente.png" alt="Logo WF" class="h-12 w-auto" />
+        <h1 class="text-3xl font-bold text-blue-600 tracking-tight">WF <span class="text-blue-400">Tecnologia</span></h1>
+      </a>
+
+<!-- Menu Responsivo -->
+<div class="md:hidden">
+  <button id="btn-menu" class="text-blue-600 focus:outline-none">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<nav id="menu" class="hidden flex-col gap-4 bg-white p-4 rounded-lg shadow-lg absolute top-20 right-6 z-50 md:flex md:flex-row md:static md:shadow-none md:bg-transparent md:p-0 md:rounded-none">
+  <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+  <a href="servicos.html" class="hover:text-blue-600 transition">Serviços</a>
+  <a href="cursos.html" class="hover:text-blue-600 transition">Cursos</a>
+  <a href="noticias.html" class="hover:text-blue-600 transition">Noticias de TI</a>
+  <a href="dicas.html" class="hover:text-blue-600 transition">Dicas de TI</a>
+  <a href="seguranca.html" class="hover:text-blue-600 transition">Segurança</a>
+  <a href="sobre.html" class="hover:text-blue-600 transition">Sobre</a>
+  <a href="contato.html" class="hover:text-blue-600 transition">Contato</a>
+</nav>
+    </div>
+  </header>
+
+<!-- Contato com formulário simples -->
+  <section id="contato" class="py-24 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h3 class="text-4xl font-bold mb-4 text-gray-800">Fale Conosco</h3>
+      <p class="text-lg text-gray-600 mb-8">Solicite uma consultoria gratuita ou tire suas dúvidas por e-mail ou formulário.</p>
+      <form action="https://formsubmit.co/consultoria@wftecnologia.net.br" method="POST" class="space-y-6 max-w-xl mx-auto text-left">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="https://wftecnologia.net.br/obrigado.html">
+
+  <label class="block">
+    <span class="text-gray-700 font-semibold">Nome</span>
+    <input type="text" name="Nome" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-3" />
+  </label>
+  <label class="block">
+    <span class="text-gray-700 font-semibold">Email</span>
+    <input type="email" name="Email" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-3" />
+  </label>
+  <label class="block">
+    <span class="text-gray-700 font-semibold">Mensagem</span>
+    <textarea name="Mensagem" rows="4" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-3"></textarea>
+  </label>
+  <button type="submit" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-full hover:bg-blue-700 transition w-full">
+    Enviar Mensagem
+  </button>
+</form>
+
+      <div class="flex justify-center items-center gap-3 text-gray-800 mt-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12l-4-4-4 4m8 0l-4 4-4-4" />
+        </svg>
+        <a href="mailto:consultoria@wftecnologia.net.br" class="text-lg font-medium hover:underline">
+          consultoria@wftecnologia.net.br
+        </a>
+      </div>
+    </div>
+  </section>
+
+ <!-- Footer -->
+  <footer class="bg-gray-900 text-white text-center py-6">
+    <p class="text-sm">&copy; 2025 WF Tecnologia • Todos os direitos reservados</p>
+  </footer>
+
+ </body>
+</html>

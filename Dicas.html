@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WF Tecnologia | Infraestrutura de TI</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1,h2,h3,h4 {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+  <script>
+    // Bloqueio simples para dev tools e contexto
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && ['U', 'S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header com fundo semi-transparente e blur -->
+  <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-3 select-none">
+        <img src="logo_wf_transparente.png" alt="Logo WF" class="h-12 w-auto" />
+        <h1 class="text-3xl font-bold text-blue-600 tracking-tight">WF <span class="text-blue-400">Tecnologia</span></h1>
+      </a>
+
+<!-- Menu Responsivo -->
+<div class="md:hidden">
+  <button id="btn-menu" class="text-blue-600 focus:outline-none">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<nav id="menu" class="hidden flex-col gap-4 bg-white p-4 rounded-lg shadow-lg absolute top-20 right-6 z-50 md:flex md:flex-row md:static md:shadow-none md:bg-transparent md:p-0 md:rounded-none">
+  <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+  <a href="servicos.html" class="hover:text-blue-600 transition">Serviços</a>
+  <a href="cursos.html" class="hover:text-blue-600 transition">Cursos</a>
+  <a href="noticias.html" class="hover:text-blue-600 transition">Noticias de TI</a>
+  <a href="dicas.html" class="hover:text-blue-600 transition">Dicas de TI</a>
+  <a href="seguranca.html" class="hover:text-blue-600 transition">Segurança</a>
+  <a href="sobre.html" class="hover:text-blue-600 transition">Sobre</a>
+  <a href="contato.html" class="hover:text-blue-600 transition">Contato</a>
+</nav>
+    </div>
+  </header>
+  <!-- Página dedicada à dicas de cibersegurança -->
+<section id="cyberseguranca" class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-8 text-gray-800 text-center">🛡️ Dicas Básicas de Segurança da Informação</h2>
+    <div class="space-y-6 text-lg text-gray-700 leading-relaxed text-justify">
+      <p>
+<br><br><b>
+🔒 Use senhas fortes e únicas:
+<br></b>
+Crie senhas com letras maiúsculas, minúsculas, números e símbolos. Nunca reutilize a mesma senha em serviços diferentes.
+<br><br><b>
+📧 Cuidado com e-mails suspeitos:
+<br></b>
+Desconfie de mensagens com erros de português, ofertas boas demais ou links estranhos. Verifique o remetente com atenção.
+<br><br><b>
+📱 Mantenha seus dispositivos atualizados:
+<br></b>
+Atualizações corrigem falhas de segurança. Sempre mantenha o sistema operacional e os aplicativos em dia.
+<br><br><b>
+☁️ Faça backup regularmente:
+<br></b>
+Guarde cópias de seus arquivos em locais seguros, como HDs externos ou na nuvem. Assim, você evita perdas por falhas ou ataques.
+<br><br><b>
+🧱 Use antivírus e firewall confiáveis:
+<br></b>
+Um bom antivírus detecta ameaças, e o firewall ajuda a controlar acessos não autorizados à rede.
+<br><br><b>
+🔓 Evite acessar dados sensíveis em redes Wi-Fi públicas:
+<br></b>
+Redes abertas podem ser monitoradas. Use VPNs ou aguarde uma conexão segura para acessar sistemas e dados importantes.
+<br><br><b>
+👀 Bloqueie sua tela ao se ausentar:
+<br></b>
+Nunca deixe seu computador ou celular desbloqueado em ambientes compartilhados ou públicos.
+<br><br><b>
+🛑 Não instale programas de fontes desconhecidas:
+<br></b>
+Baixe softwares apenas de sites oficiais ou lojas confiáveis. Programas de fontes duvidosas podem conter malwares.
+<br><br><b>
+🔐 Ative a autenticação em dois fatores (2FA):
+<br></b>
+Um código extra além da senha dificulta o acesso indevido às suas contas, mesmo que a senha seja descoberta.
+<br><br><b>
+🧠 Eduque-se e eduque sua equipe:
+<br></b>
+Segurança da informação começa pelas pessoas. Participe de treinamentos e incentive boas práticas no ambiente de trabalho.
+
+  </div>
+  </div>
+  </section>
+  </p>
+
+ <!-- Footer -->
+  <footer class="bg-gray-900 text-white text-center py-6">
+    <p class="text-sm">&copy; 2025 WF Tecnologia • Todos os direitos reservados</p>
+  </footer>
+
+ </body>
+</html>

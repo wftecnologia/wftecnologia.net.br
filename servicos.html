@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WF Tecnologia | Infraestrutura de TI</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    h1,h2,h3,h4 {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+  <script>
+    // Bloqueio simples para dev tools e contexto
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+        (e.ctrlKey && ['U', 'S'].includes(e.key))
+      ) e.preventDefault();
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header com fundo semi-transparente e blur -->
+  <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-md transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-3 select-none">
+        <img src="logo_wf_transparente.png" alt="Logo WF" class="h-12 w-auto" />
+        <h1 class="text-3xl font-bold text-blue-600 tracking-tight">WF <span class="text-blue-400">Tecnologia</span></h1>
+      </a>
+
+<!-- Menu Responsivo -->
+<div class="md:hidden">
+  <button id="btn-menu" class="text-blue-600 focus:outline-none">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<nav id="menu" class="hidden flex-col gap-4 bg-white p-4 rounded-lg shadow-lg absolute top-20 right-6 z-50 md:flex md:flex-row md:static md:shadow-none md:bg-transparent md:p-0 md:rounded-none">
+  <a href="index.html" class="hover:text-blue-600 transition">Home</a>  
+  <a href="servicos.html" class="hover:text-blue-600 transition">Serviços</a>
+  <a href="cursos.html" class="hover:text-blue-600 transition">Cursos</a>
+  <a href="noticias.html" class="hover:text-blue-600 transition">Noticias de TI</a>
+  <a href="dicas.html" class="hover:text-blue-600 transition">Dicas de TI</a>
+  <a href="seguranca.html" class="hover:text-blue-600 transition">Segurança</a>
+  <a href="sobre.html" class="hover:text-blue-600 transition">Sobre</a>
+  <a href="contato.html" class="hover:text-blue-600 transition">Contato</a>
+</nav>
+
+    </div>
+  </header>
+
+  <!-- Página dedicada à cursos de TI -->
+<section id="MANUTENÇÃO" class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-8 text-gray-800 text-center">EM MANUTENÇÃO</h2>
+    <div class="space-y-6 text-lg text-gray-700 leading-relaxed text-justify">
+ 
+<script>
+  const btn = document.getElementById("btn-menu");
+  const menu = document.getElementById("menu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+</body>
+</html>
