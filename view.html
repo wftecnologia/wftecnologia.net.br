@@ -3,141 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visualizador de Permissões NTFS</title>
 
-  <!-- Biblioteca XLSX -->
+  <title>Dashboard de Permissões</title>
+
+  <!-- XLSX -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
 
-    body {
+    body{
       font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      margin: 0;
-      padding: 20px;
-      color: #1f2937;
+      background:#f3f4f6;
+      margin:0;
+      padding:20px;
+      color:#1f2937;
     }
 
-    .container {
-      max-width: 1400px;
-      margin: auto;
+    .container{
+      max-width:1600px;
+      margin:auto;
     }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .card{
+      background:white;
+      border-radius:16px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
     }
 
-    h1 {
-      margin-top: 0;
+    h1{
+      margin-top:0;
     }
 
     input[type="file"],
-    input[type="text"] {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      width: 100%;
-      box-sizing: border-box;
+    input[type="text"]{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      width:100%;
+      box-sizing:border-box;
     }
 
-    .tree {
-      margin-top: 20px;
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:10px;
+      margin-top:20px;
     }
 
-    .folder {
-      margin-left: 20px;
-      border-left: 1px solid #d1d5db;
-      padding-left: 15px;
-      margin-top: 10px;
+    .stat-box{
+      background:#eff6ff;
+      border-radius:12px;
+      padding:15px;
     }
 
-    .folder-title {
-      cursor: pointer;
-      font-weight: bold;
-      padding: 6px;
-      border-radius: 6px;
-      user-select: none;
+    .stat-box strong{
+      display:block;
+      font-size:24px;
+      margin-top:5px;
     }
 
-    .folder-title:hover {
-      background: #f3f4f6;
+    .charts{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+      gap:20px;
+      margin-top:20px;
     }
 
-    .permission {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 8px;
+    .chart-card{
+      background:white;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .permission-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 8px;
-      margin-top: 8px;
+    .tree{
+      margin-top:20px;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 20px;
-      font-size: 12px;
-      background: #dbeafe;
-      color: #1d4ed8;
+    .folder{
+      margin-left:20px;
+      border-left:1px solid #d1d5db;
+      padding-left:15px;
+      margin-top:10px;
     }
 
-    .hidden {
-      display: none;
+    .folder-title{
+      cursor:pointer;
+      font-weight:bold;
+      padding:6px;
+      border-radius:6px;
+      user-select:none;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-top: 20px;
+    .folder-title:hover{
+      background:#f3f4f6;
     }
 
-    .stat-box {
-      background: #eff6ff;
-      border-radius: 12px;
-      padding: 15px;
+    .permission{
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      padding:12px;
+      margin-top:8px;
     }
 
-    .stat-box strong {
-      display: block;
-      font-size: 22px;
-      margin-top: 5px;
+    .permission-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:8px;
+      margin-top:8px;
     }
 
-    .perm-read {
-      border-left: 6px solid #22c55e;
+    .badge{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:20px;
+      font-size:12px;
+      background:#dbeafe;
+      color:#1d4ed8;
     }
 
-    .perm-modify {
-      border-left: 6px solid #f59e0b;
+    .hidden{
+      display:none;
     }
 
-    .perm-full {
-      border-left: 6px solid #ef4444;
+    .perm-read{
+      border-left:6px solid #22c55e;
+    }
+
+    .perm-modify{
+      border-left:6px solid #f59e0b;
+    }
+
+    .perm-full{
+      border-left:6px solid #ef4444;
     }
 
   </style>
 </head>
+
 <body>
 
 <div class="container">
 
   <div class="card">
 
-    <h1>Visualizador de Permissões NTFS</h1>
+    <h1>Dashboard de Permissões</h1>
 
     <p>
-      Faça upload do CSV ou XLSX exportado pelo PowerShell.
+      Faça upload do CSV ou XLSX exportado do PowerShell.
     </p>
 
     <input type="file" id="csvFile" accept=".csv,.xlsx,.xls">
@@ -150,7 +169,28 @@
 
   </div>
 
+  <div class="charts">
+
+    <div class="chart-card">
+      <h3>Distribuição de Permissões</h3>
+      <canvas id="permChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Top 10 Grupos</h3>
+      <canvas id="groupChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Top 10 Usuários</h3>
+      <canvas id="userChart"></canvas>
+    </div>
+
+  </div>
+
   <div class="card">
+
+    <h2>Árvore de Permissões</h2>
 
     <div id="tree" class="tree"></div>
 
@@ -162,47 +202,43 @@
 
 let originalData = [];
 
-document.getElementById('csvFile').addEventListener('change', function(e) {
+let permChart;
+let groupChart;
+let userChart;
+
+document.getElementById('csvFile').addEventListener('change', function(e){
 
   const file = e.target.files[0];
 
-  if (!file) return;
+  if(!file) return;
 
   const reader = new FileReader();
 
   const fileName = file.name.toLowerCase();
 
-  // XLSX
-  if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+  if(fileName.endsWith('.xlsx') || fileName.endsWith('.xls')){
 
-    reader.onload = function(event) {
+    reader.onload = function(event){
 
       const data = new Uint8Array(event.target.result);
 
-      const workbook = XLSX.read(data, { type: 'array' });
+      const workbook = XLSX.read(data,{type:'array'});
 
       const firstSheet = workbook.SheetNames[0];
 
       const worksheet = workbook.Sheets[firstSheet];
 
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+      const jsonData = XLSX.utils.sheet_to_json(worksheet,{defval:''});
 
-      originalData = jsonData;
-
-      renderStats(jsonData);
-
-      renderTree(jsonData);
+      loadData(jsonData);
 
     };
 
     reader.readAsArrayBuffer(file);
 
-  }
+  }else{
 
-  // CSV
-  else {
-
-    reader.onload = function(event) {
+    reader.onload = function(event){
 
       const csv = event.target.result;
 
@@ -210,19 +246,31 @@ document.getElementById('csvFile').addEventListener('change', function(e) {
 
     };
 
-    reader.readAsText(file, 'UTF-8');
+    reader.readAsText(file,'UTF-8');
 
   }
 
 });
 
-document.getElementById('search').addEventListener('input', function() {
+document.getElementById('search').addEventListener('input', function(){
 
-  renderTree(originalData, this.value.toLowerCase());
+  renderTree(originalData,this.value.toLowerCase());
 
 });
 
-function processCSV(csv) {
+function loadData(data){
+
+  originalData = data;
+
+  renderStats(data);
+
+  renderCharts(data);
+
+  renderTree(data);
+
+}
+
+function processCSV(csv){
 
   const lines = csv.split('\n').filter(l => l.trim() !== '');
 
@@ -230,13 +278,13 @@ function processCSV(csv) {
 
   const data = [];
 
-  for (let i = 1; i < lines.length; i++) {
+  for(let i=1;i<lines.length;i++){
 
     const values = parseCSVLine(lines[i]);
 
     const obj = {};
 
-    headers.forEach((header, index) => {
+    headers.forEach((header,index)=>{
 
       obj[header] = values[index] || '';
 
@@ -246,15 +294,11 @@ function processCSV(csv) {
 
   }
 
-  originalData = data;
-
-  renderStats(data);
-
-  renderTree(data);
+  loadData(data);
 
 }
 
-function parseCSVLine(line) {
+function parseCSVLine(line){
 
   const result = [];
 
@@ -262,21 +306,21 @@ function parseCSVLine(line) {
 
   let insideQuotes = false;
 
-  for (let char of line) {
+  for(let char of line){
 
-    if (char === '"') {
+    if(char === '"'){
 
       insideQuotes = !insideQuotes;
 
     }
-    else if (char === ',' && !insideQuotes) {
+    else if(char === ',' && !insideQuotes){
 
       result.push(current);
 
       current = '';
 
     }
-    else {
+    else{
 
       current += char;
 
@@ -286,20 +330,20 @@ function parseCSVLine(line) {
 
   result.push(current);
 
-  return result.map(v => v.replace(/^"|"$/g, '').trim());
+  return result.map(v => v.replace(/^"|"$/g,'').trim());
 
 }
 
-function normalizePath(path) {
+function normalizePath(path){
 
   return (path || '')
     .trim()
     .toLowerCase()
-    .replace(/\\\\+/g, '\\');
+    .replace(/\\\\+/g,'\\');
 
 }
 
-function renderStats(data) {
+function renderStats(data){
 
   const usuarios = new Set(
     data.map(x => (x.UsuarioLogin || '').toLowerCase())
@@ -309,12 +353,9 @@ function renderStats(data) {
     data.map(x => (x.GrupoPermissao || '').toLowerCase())
   ).size;
 
-  // CONTAGEM REAL DE PASTAS
   const pastas = new Set(
     data.map(x => normalizePath(x.Pasta))
   ).size;
-
-  const registros = data.length;
 
   document.getElementById('stats').innerHTML = `
 
@@ -335,14 +376,109 @@ function renderStats(data) {
 
     <div class="stat-box">
       Registros
-      <strong>${registros}</strong>
+      <strong>${data.length}</strong>
     </div>
 
   `;
 
 }
 
-function renderTree(data, filter = '') {
+function renderCharts(data){
+
+  const read = data.filter(x =>
+    (x.Permissao || '').toLowerCase().includes('read')
+  ).length;
+
+  const modify = data.filter(x =>
+    (x.Permissao || '').toLowerCase().includes('modify')
+  ).length;
+
+  const full = data.filter(x =>
+    (x.Permissao || '').toLowerCase().includes('full')
+  ).length;
+
+  if(permChart) permChart.destroy();
+  if(groupChart) groupChart.destroy();
+  if(userChart) userChart.destroy();
+
+  permChart = new Chart(
+    document.getElementById('permChart'),
+    {
+      type:'pie',
+      data:{
+        labels:['Read','Modify','FullControl'],
+        datasets:[{
+          data:[read,modify,full]
+        }]
+      }
+    }
+  );
+
+  const groupCounts = {};
+
+  data.forEach(x => {
+
+    const g = x.GrupoPermissao || 'N/A';
+
+    groupCounts[g] = (groupCounts[g] || 0) + 1;
+
+  });
+
+  const topGroups = Object.entries(groupCounts)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,10);
+
+  groupChart = new Chart(
+    document.getElementById('groupChart'),
+    {
+      type:'bar',
+      data:{
+        labels:topGroups.map(x=>x[0]),
+        datasets:[{
+          label:'Permissões',
+          data:topGroups.map(x=>x[1])
+        }]
+      },
+      options:{
+        indexAxis:'y'
+      }
+    }
+  );
+
+  const userCounts = {};
+
+  data.forEach(x => {
+
+    const u = x.UsuarioLogin || 'N/A';
+
+    userCounts[u] = (userCounts[u] || 0) + 1;
+
+  });
+
+  const topUsers = Object.entries(userCounts)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,10);
+
+  userChart = new Chart(
+    document.getElementById('userChart'),
+    {
+      type:'bar',
+      data:{
+        labels:topUsers.map(x=>x[0]),
+        datasets:[{
+          label:'Permissões',
+          data:topUsers.map(x=>x[1])
+        }]
+      },
+      options:{
+        indexAxis:'y'
+      }
+    }
+  );
+
+}
+
+function renderTree(data,filter=''){
 
   const tree = {};
 
@@ -350,12 +486,12 @@ function renderTree(data, filter = '') {
 
     const searchable = JSON.stringify(item).toLowerCase();
 
-    if (filter && !searchable.includes(filter)) {
+    if(filter && !searchable.includes(filter)){
       return;
     }
 
     const path = normalizePath(item.Pasta)
-      .replace(/^\\\\/, '')
+      .replace(/^\\\\/,'')
       .split('\\')
       .filter(Boolean);
 
@@ -363,11 +499,11 @@ function renderTree(data, filter = '') {
 
     path.forEach(part => {
 
-      if (!current[part]) {
+      if(!current[part]){
 
         current[part] = {
-          __children: {},
-          __permissions: []
+          __children:{},
+          __permissions:[]
         };
 
       }
@@ -378,19 +514,15 @@ function renderTree(data, filter = '') {
 
     let node = tree;
 
-    path.forEach((part, index) => {
+    path.forEach((part,index)=>{
 
       node = node[part];
 
-      if (index < path.length - 1) {
+      if(index < path.length -1){
         node = node.__children;
       }
 
     });
-
-    if (!node.__permissions) {
-      node.__permissions = [];
-    }
 
     node.__permissions.push(item);
 
@@ -402,13 +534,13 @@ function renderTree(data, filter = '') {
 
   Object.keys(tree).forEach(folder => {
 
-    container.appendChild(createFolder(folder, tree[folder]));
+    container.appendChild(createFolder(folder,tree[folder]));
 
   });
 
 }
 
-function createFolder(name, node) {
+function createFolder(name,node){
 
   const wrapper = document.createElement('div');
 
@@ -422,7 +554,7 @@ function createFolder(name, node) {
 
   const content = document.createElement('div');
 
-  title.addEventListener('click', () => {
+  title.addEventListener('click',()=>{
 
     content.classList.toggle('hidden');
 
@@ -436,17 +568,17 @@ function createFolder(name, node) {
 
     const permissao = (perm.Permissao || '').toLowerCase();
 
-    if (permissao.includes('full')) {
+    if(permissao.includes('full')){
 
       classePermissao = 'perm-full';
 
     }
-    else if (permissao.includes('modify')) {
+    else if(permissao.includes('modify')){
 
       classePermissao = 'perm-modify';
 
     }
-    else {
+    else{
 
       classePermissao = 'perm-read';
 
@@ -487,7 +619,7 @@ function createFolder(name, node) {
 
   Object.keys(node.__children).forEach(child => {
 
-    content.appendChild(createFolder(child, node.__children[child]));
+    content.appendChild(createFolder(child,node.__children[child]));
 
   });
 
