@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>PDF para Word</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at top left,#2563eb 0%,#111827 45%);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  color:white;
+}
+
+.card{
+  width:100%;
+  max-width:460px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:24px;
+  padding:40px;
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.25);
+}
+
+.logo{
+  width:70px;
+  height:70px;
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  border-radius:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
+  margin-bottom:24px;
+  font-size:34px;
+}
+
+h1{
+  text-align:center;
+  font-size:32px;
+  margin-bottom:12px;
+}
+
+.subtitle{
+  text-align:center;
+  color:rgba(255,255,255,.75);
+  margin-bottom:35px;
+  line-height:1.5;
+}
+
+.upload-area{
+  border:2px dashed rgba(255,255,255,.25);
+  border-radius:18px;
+  padding:35px 20px;
+  text-align:center;
+  transition:.3s;
+  cursor:pointer;
+  background:rgba(255,255,255,.03);
+}
+
+.upload-area:hover{
+  border-color:#60a5fa;
+  background:rgba(255,255,255,.06);
+}
+
+.upload-icon{
+  font-size:48px;
+  margin-bottom:15px;
+}
+
+.upload-text{
+  font-size:15px;
+  color:rgba(255,255,255,.8);
+}
+
+input[type=file]{
+  display:none;
+}
+
+button{
+  width:100%;
+  margin-top:24px;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:
+    0 10px 20px rgba(37,99,235,.3);
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(37,99,235,.45);
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+.status{
+  margin-top:22px;
+  text-align:center;
+  color:#bfdbfe;
+  min-height:20px;
+}
+
+.file-name{
+  margin-top:15px;
+  text-align:center;
+  font-size:14px;
+  color:#e5e7eb;
+}
+
+.footer{
+  margin-top:30px;
+  text-align:center;
+  font-size:12px;
+  color:rgba(255,255,255,.45);
+}
+
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="logo">
+    📄
+  </div>
+
+  <h1>PDF para Word</h1>
+
+  <p class="subtitle">
+    Converta seus arquivos PDF em documentos Word rapidamente.
+  </p>
+
+  <label class="upload-area">
+
+    <div class="upload-icon">
+      ⬆️
+    </div>
+
+    <div class="upload-text">
+      Clique para selecionar um PDF
+    </div>
+
+    <input
+      type="file"
+      id="pdf"
+      accept=".pdf"
+    >
+
+  </label>
+
+  <div class="file-name" id="fileName">
+  </div>
+
+  <button onclick="converter()">
+    Converter Arquivo
+  </button>
+
+  <div class="status" id="status"></div>
+
+  <div class="footer">
+    Conversão local • Sem upload para servidores
+  </div>
+
+</div>
+
+<script>
+
+const input =
+  document.getElementById('pdf');
+
+input.addEventListener('change',()=>{
+
+  const file = input.files[0];
+
+  if(file){
+
+    document.getElementById(
+      'fileName'
+    ).innerText = file.name;
+  }
+});
+
+async function converter(){
+
+  const file =
+    document.getElementById('pdf').files[0];
+
+  const status =
+    document.getElementById('status');
+
+  if(!file){
+
+    alert('Selecione um PDF');
+
+    return;
+  }
+
+  status.innerText =
+    'Lendo PDF...';
+
+  const reader =
+    new FileReader();
+
+  reader.onload = async function(){
+
+    const typedarray =
+      new Uint8Array(this.result);
+
+    const pdf =
+      await pdfjsLib.getDocument(
+        typedarray
+      ).promise;
+
+    let texto = '';
+
+    for(let i=1;i<=pdf.numPages;i++){
+
+      status.innerText =
+        `Processando página ${i} de ${pdf.numPages}`;
+
+      const page =
+        await pdf.getPage(i);
+
+      const content =
+        await page.getTextContent();
+
+      const strings =
+        content.items.map(
+          item => item.str
+        );
+
+      texto +=
+        strings.join(' ') + '\n\n';
+    }
+
+    gerarWord(texto);
+
+    status.innerText =
+      'Conversão concluída ✅';
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+function gerarWord(texto){
+
+  const header =
+    "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+    "xmlns:w='urn:schemas-microsoft-com:office:word'>"+
+    "<head><meta charset='utf-8'></head><body>";
+
+  const footer =
+    "</body></html>";
+
+  const sourceHTML =
+    header + texto + footer;
+
+  const blob = new Blob(
+    ['\ufeff', sourceHTML],
+    {
+      type:'application/msword'
+    }
+  );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement('a');
+
+  link.href = url;
+
+  link.download =
+    'arquivo.doc';
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+}
+
+</script>
+
+</body>
+</html>
