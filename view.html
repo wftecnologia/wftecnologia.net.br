@@ -11,19 +11,40 @@
   >
 
   <title>
-    Relatório de Permissões
+    Dashboard de Permissões
   </title>
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <link rel="stylesheet" href="style.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <!-- XLSX -->
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js">
+  </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- CHART -->
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/chart.js">
+  </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <!-- PDF -->
+  <script
+    defer
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+  </script>
+
+  <!-- PDF TABLE -->
+  <script
+    defer
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js">
+  </script>
+
+  <!-- APP -->
+  <script
+    defer
+    src="app.js">
+  </script>
 
 </head>
 
@@ -31,12 +52,13 @@
 
 <div class="container">
 
+  <!-- TOPO -->
   <div class="topbar">
 
     <div class="title">
 
       <h1>
-        Relatório de Permissões
+        Dashboard de Permissões
       </h1>
 
     </div>
@@ -63,11 +85,13 @@
 
   </div>
 
+  <!-- CARDS -->
   <div
     class="cards"
     id="stats"
   ></div>
 
+  <!-- ÁRVORE -->
   <div class="tree-box">
 
     <h2>
@@ -79,8 +103,6 @@
   </div>
 
 </div>
-
-<script src="app.js"></script>
 
 </body>
 </html>
