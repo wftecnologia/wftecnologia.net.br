@@ -1,247 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard de permissões</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Dashboard de Permissões
+  </title>
+
+  <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
-    body{
-      font-family: Inter, Arial, sans-serif;
-      background:#0f172a;
-      color:#f8fafc;
-      padding:30px;
-    }
-
-    .container{
-      max-width:1800px;
-      margin:auto;
-    }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:25px;
-      flex-wrap:wrap;
-      gap:15px;
-    }
-
-    .title h1{
-      font-size:34px;
-      margin-bottom:8px;
-    }
-
-    .title p{
-      color:#94a3b8;
-    }
-
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    input[type="file"]{
-      background:#1e293b;
-      color:white;
-      border:none;
-      padding:12px;
-      border-radius:12px;
-      cursor:pointer;
-    }
-
-    input[type="text"]{
-      width:320px;
-      background:#1e293b;
-      border:none;
-      color:white;
-      padding:12px 15px;
-      border-radius:12px;
-      outline:none;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:18px;
-      margin-bottom:25px;
-    }
-
-    .card{
-      background:linear-gradient(145deg,#1e293b,#172033);
-      border-radius:22px;
-      padding:25px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .card span{
-      color:#94a3b8;
-      font-size:14px;
-    }
-
-    .card h2{
-      font-size:34px;
-      margin-top:10px;
-    }
-
-    .charts{
-      display:grid;
-      grid-template-columns:420px 1fr;
-      gap:20px;
-      margin-bottom:25px;
-      align-items:start;
-    }
-
-    .chart-box{
-      background:#111827;
-      border-radius:22px;
-      padding:25px;
-      min-height:420px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.25);
-      overflow:hidden;
-    }
-
-    .chart-box h3{
-      margin-bottom:18px;
-      text-align:center;
-    }
-
-    .pie-wrapper{
-      width:240px;
-      height:240px;
-      margin:auto;
-    }
-
-    canvas{
-      max-height:260px !important;
-    }
-
-    .risk-grid{
-      margin-top:25px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
-
-    .risk-card{
-      background:#1e293b;
-      border-radius:16px;
-      padding:20px;
-      text-align:center;
-      border-left:5px solid #334155;
-    }
-
-    .risk-read{
-      border-left-color:#22c55e;
-    }
-
-    .risk-modify{
-      border-left-color:#f59e0b;
-    }
-
-    .risk-full{
-      border-left-color:#ef4444;
-    }
-
-    .risk-title{
-      font-size:13px;
-      color:#94a3b8;
-    }
-
-    .risk-number{
-      font-size:28px;
-      font-weight:bold;
-      margin-top:10px;
-    }
-
-    .tree-box{
-      background:#111827;
-      border-radius:22px;
-      padding:25px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .tree-box h2{
-      margin-bottom:20px;
-    }
-
-    .folder{
-      margin-left:20px;
-      border-left:1px solid rgba(255,255,255,0.08);
-      padding-left:16px;
-      margin-top:12px;
-    }
-
-    .folder-title{
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      background:#1e293b;
-      margin-bottom:10px;
-      font-weight:bold;
-      transition:0.2s;
-    }
-
-    .folder-title:hover{
-      background:#334155;
-    }
-
-    .hidden{
-      display:none;
-    }
-
-    .permission{
-      background:#0f172a;
-      border-radius:18px;
-      padding:18px;
-      margin-bottom:12px;
-      border-left:6px solid #3b82f6;
-    }
-
-    .perm-read{
-      border-left-color:#22c55e;
-    }
-
-    .perm-modify{
-      border-left-color:#f59e0b;
-    }
-
-    .perm-full{
-      border-left-color:#ef4444;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:12px;
-      margin-top:14px;
-    }
-
-    .info{
-      background:#1e293b;
-      padding:12px;
-      border-radius:12px;
-    }
-
-    .info span{
-      display:block;
-      font-size:12px;
-      color:#94a3b8;
-      margin-bottom:5px;
-    }
-
-  </style>
 </head>
 
 <body>
@@ -251,43 +33,101 @@
   <div class="topbar">
 
     <div class="title">
-      <h1>Dashboard de permissões</h1>
+
+      <h1>
+        Dashboard de Permissões
+      </h1>
+      
     </div>
 
     <div class="actions">
-      <input type="file" id="csvFile" accept=".csv,.xlsx,.xls">
-      <input type="text" id="search" placeholder="Buscar usuário, grupo ou pasta...">
+
+      <input
+        type="file"
+        id="csvFile"
+        accept=".csv,.xlsx,.xls"
+      >
+
+      <input
+        type="text"
+        id="search"
+        placeholder="Buscar usuário, grupo ou pasta..."
+      >
+
+      <button id="generatePDF">
+
+        Gerar PDF
+
+      </button>
+
     </div>
 
   </div>
 
-  <div class="cards" id="stats"></div>
+  <div
+    class="cards"
+    id="stats"
+  ></div>
 
   <div class="charts">
 
     <div class="chart-box">
 
-      <h3>Distribuição de Permissões</h3>
+      <h3>
+        Distribuição de Permissões
+      </h3>
 
       <div class="pie-wrapper">
+
         <canvas id="permChart"></canvas>
+
       </div>
 
       <div class="risk-grid">
 
         <div class="risk-card risk-read">
-          <div class="risk-title">Read</div>
-          <div id="riskRead" class="risk-number">0</div>
+
+          <div class="risk-title">
+            Read
+          </div>
+
+          <div
+            id="riskRead"
+            class="risk-number"
+          >
+            0
+          </div>
+
         </div>
 
         <div class="risk-card risk-modify">
-          <div class="risk-title">Modify</div>
-          <div id="riskModify" class="risk-number">0</div>
+
+          <div class="risk-title">
+            Modify
+          </div>
+
+          <div
+            id="riskModify"
+            class="risk-number"
+          >
+            0
+          </div>
+
         </div>
 
         <div class="risk-card risk-full">
-          <div class="risk-title">Full Control</div>
-          <div id="riskFull" class="risk-number">0</div>
+
+          <div class="risk-title">
+            Full
+          </div>
+
+          <div
+            id="riskFull"
+            class="risk-number"
+          >
+            0
+          </div>
+
         </div>
 
       </div>
@@ -296,10 +136,14 @@
 
     <div class="chart-box">
 
-      <h3>Top 10 Usuários</h3>
+      <h3>
+        Permissões por Nível de Risco
+      </h3>
 
-      <div style="height:320px;">
-        <canvas id="userChart"></canvas>
+      <div style="height:350px;">
+
+        <canvas id="riskChart"></canvas>
+
       </div>
 
     </div>
@@ -308,7 +152,9 @@
 
   <div class="tree-box">
 
-    <h2>Árvore de Permissões</h2>
+    <h2>
+      Árvore de Permissões
+    </h2>
 
     <div id="tree"></div>
 
@@ -316,368 +162,7 @@
 
 </div>
 
-<script>
-
-let originalData = [];
-
-let permChart;
-let userChart;
-
-Chart.defaults.color = '#ffffff';
-Chart.defaults.font.size = 12;
-
-document.getElementById('search').addEventListener('input', function(){
-  renderTree(originalData, this.value.toLowerCase());
-});
-
-function normalizeCSVLine(line){
-
-  const result = [];
-  let current = '';
-  let insideQuotes = false;
-
-  for(let char of line){
-
-    if(char === '"'){
-      insideQuotes = !insideQuotes;
-    }
-    else if(char === ',' && !insideQuotes){
-      result.push(current);
-      current = '';
-    }
-    else{
-      current += char;
-    }
-
-  }
-
-  result.push(current);
-
-  return result.map(v => v.replace(/^"|"$/g,'').trim());
-}
-
-document.getElementById('csvFile').addEventListener('change', function(e){
-
-  const file = e.target.files[0];
-
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  const fileName = file.name.toLowerCase();
-
-  if(fileName.endsWith('.xlsx') || fileName.endsWith('.xls')){
-
-    reader.onload = function(event){
-
-      const data = new Uint8Array(event.target.result);
-
-      const workbook = XLSX.read(data,{type:'array'});
-
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
-      const jsonData = XLSX.utils.sheet_to_json(worksheet,{defval:''});
-
-      loadData(jsonData);
-
-    };
-
-    reader.readAsArrayBuffer(file);
-
-  }else{
-
-    reader.onload = function(event){
-      processCSV(event.target.result);
-    };
-
-    reader.readAsText(file,'UTF-8');
-
-  }
-
-});
-
-function processCSV(csv){
-
-  const lines = csv.split('\n').filter(l => l.trim() !== '');
-
-  const headers = normalizeCSVLine(lines[0]);
-
-  const data = [];
-
-  for(let i=1;i<lines.length;i++){
-
-    const values = normalizeCSVLine(lines[i]);
-
-    const obj = {};
-
-    headers.forEach((header,index)=>{
-      obj[header] = values[index] || '';
-    });
-
-    data.push(obj);
-
-  }
-
-  loadData(data);
-
-}
-
-function loadData(data){
-
-  originalData = data;
-
-  renderStats(data);
-  renderCharts(data);
-  renderTree(data);
-
-}
-
-function renderStats(data){
-
-  const usuarios = new Set(data.map(x => x.UsuarioLogin)).size;
-  const grupos = new Set(data.map(x => x.GrupoPermissao)).size;
-  const pastas = new Set(data.map(x => x.Pasta)).size;
-
-  document.getElementById('stats').innerHTML = `
-
-    <div class="card">
-      <span>Usuários</span>
-      <h2>${usuarios}</h2>
-    </div>
-
-    <div class="card">
-      <span>Grupos</span>
-      <h2>${grupos}</h2>
-    </div>
-
-    <div class="card">
-      <span>Pastas</span>
-      <h2>${pastas}</h2>
-    </div>
-
-    <div class="card">
-      <span>Registros</span>
-      <h2>${data.length}</h2>
-    </div>
-
-  `;
-
-}
-
-function renderCharts(data){
-
-  if(permChart) permChart.destroy();
-  if(userChart) userChart.destroy();
-
-  const read = data.filter(x => (x.Permissao || '').toLowerCase().includes('read')).length;
-  const modify = data.filter(x => (x.Permissao || '').toLowerCase().includes('modify')).length;
-  const full = data.filter(x => (x.Permissao || '').toLowerCase().includes('full')).length;
-
-  document.getElementById('riskRead').innerText = read;
-  document.getElementById('riskModify').innerText = modify;
-  document.getElementById('riskFull').innerText = full;
-
-  permChart = new Chart(document.getElementById('permChart'),{
-    type:'doughnut',
-    data:{
-      labels:['Read','Modify','Full'],
-      datasets:[{
-        data:[read,modify,full],
-        backgroundColor:['#22c55e','#f59e0b','#ef4444'],
-        borderWidth:0
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{
-          position:'bottom'
-        }
-      }
-    }
-  });
-
-  const users = {};
-
-  data.forEach(x=>{
-    const u = x.UsuarioLogin || 'N/A';
-    users[u] = (users[u] || 0) + 1;
-  });
-
-  const topUsers = Object.entries(users)
-    .sort((a,b)=>b[1]-a[1])
-    .slice(0,10);
-
-  userChart = new Chart(document.getElementById('userChart'),{
-
-    type:'bar',
-
-    data:{
-      labels:topUsers.map(x=>x[0]),
-      datasets:[{
-        label:'Permissões',
-        data:topUsers.map(x=>x[1]),
-        borderRadius:8
-      }]
-    },
-
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      indexAxis:'y',
-      plugins:{
-        legend:{
-          display:false
-        }
-      }
-    }
-
-  });
-
-}
-
-function renderTree(data, filter=''){
-
-  const treeContainer = document.getElementById('tree');
-
-  treeContainer.innerHTML = '';
-
-  const tree = {};
-
-  data.forEach(item=>{
-
-    const path = (item.Pasta || 'SEM PASTA')
-      .split('\\')
-      .filter(Boolean);
-
-    let current = tree;
-
-    path.forEach(folder=>{
-
-      current[folder] = current[folder] || {
-        __items: [],
-        __children: {}
-      };
-
-      current = current[folder].__children;
-
-    });
-
-    let target = tree;
-
-    path.forEach(folder=>{
-      target = target[folder].__children;
-    });
-
-  });
-
-  data.forEach(item=>{
-
-    const searchable = JSON.stringify(item).toLowerCase();
-
-    if(filter && !searchable.includes(filter)) return;
-
-    const path = (item.Pasta || 'SEM PASTA')
-      .split('\\')
-      .filter(Boolean);
-
-    let current = tree;
-
-    path.forEach(folder=>{
-      current = current[folder];
-      if(folder !== path[path.length - 1]){
-        current = current.__children;
-      }
-    });
-
-    current.__items.push(item);
-
-  });
-
-  function renderNode(node, container){
-
-    Object.keys(node).forEach(key=>{
-
-      const folderData = node[key];
-
-      const folderDiv = document.createElement('div');
-      folderDiv.className = 'folder';
-
-      const title = document.createElement('div');
-      title.className = 'folder-title';
-      title.textContent = '📁 ' + key;
-
-      const content = document.createElement('div');
-      content.classList.add('hidden');
-
-      title.onclick = () => {
-        content.classList.toggle('hidden');
-      };
-
-      folderDiv.appendChild(title);
-      folderDiv.appendChild(content);
-
-      container.appendChild(folderDiv);
-
-      renderNode(folderData.__children, content);
-
-      folderData.__items.forEach(item=>{
-
-        const permission = (item.Permissao || '').toLowerCase();
-
-        let permClass = 'permission';
-
-        if(permission.includes('full')) permClass += ' perm-full';
-        else if(permission.includes('modify')) permClass += ' perm-modify';
-        else if(permission.includes('read')) permClass += ' perm-read';
-
-        const div = document.createElement('div');
-        div.className = permClass;
-
-        div.innerHTML = `
-
-          <strong>${item.UsuarioLogin || 'N/A'}</strong>
-
-          <div style="color:#94a3b8;font-size:12px;margin-top:4px;">
-            ${item.Nome || item.NomeCompleto || item.DisplayName || ''}
-          </div>
-
-          <div class="grid">
-
-            <div class="info">
-              <span>Pasta</span>
-              ${item.Pasta || ''}
-            </div>
-
-            <div class="info">
-              <span>Grupo</span>
-              ${item.GrupoPermissao || ''}
-            </div>
-
-            <div class="info">
-              <span>Permissão</span>
-              ${item.Permissao || ''}
-            </div>
-
-          </div>
-
-        `;
-
-        content.appendChild(div);
-
-      });
-
-    });
-
-  }
-
-  renderNode(tree, treeContainer);
-
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
-```
