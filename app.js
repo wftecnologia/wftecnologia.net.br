@@ -1,9 +1,10 @@
 let originalData = [];
 
-let permChart;
-let riskChart;
-
-Chart.defaults.color = '#ffffff';
+/*
+==================================================
+EVENTOS
+==================================================
+*/
 
 document
 .getElementById('search')
@@ -32,7 +33,7 @@ document
 
 /*
 ==================================================
-LEITURA
+LEITURA ARQUIVO
 ==================================================
 */
 
@@ -48,6 +49,12 @@ function handleFile(e){
 
   const fileName =
     file.name.toLowerCase();
+
+  /*
+  ==============================================
+  EXCEL
+  ==============================================
+  */
 
   if(
     fileName.endsWith('.xlsx') ||
@@ -86,6 +93,12 @@ function handleFile(e){
 
   }
 
+  /*
+  ==============================================
+  CSV
+  ==============================================
+  */
+
   else{
 
     reader.onload = function(event){
@@ -107,7 +120,7 @@ function handleFile(e){
 
 /*
 ==================================================
-CSV
+PROCESSA CSV
 ==================================================
 */
 
@@ -146,6 +159,12 @@ function processCSV(csv){
   loadData(data);
 
 }
+
+/*
+==================================================
+PARSE CSV
+==================================================
+*/
 
 function parseCSVLine(line){
 
@@ -206,8 +225,6 @@ function loadData(data){
   originalData = data;
 
   renderStats(data);
-
-  renderCharts(data);
 
   renderTree(data);
 
@@ -272,188 +289,7 @@ function renderStats(data){
 
 /*
 ==================================================
-GRÁFICOS
-==================================================
-*/
-
-function renderCharts(data){
-
-  if(permChart)
-    permChart.destroy();
-
-  if(riskChart)
-    riskChart.destroy();
-
-  const read =
-    data.filter(x =>
-
-      (x.Permissao || '')
-      .toLowerCase()
-      .includes('read')
-
-    ).length;
-
-  const modify =
-    data.filter(x =>
-
-      (x.Permissao || '')
-      .toLowerCase()
-      .includes('modify')
-
-    ).length;
-
-  const full =
-    data.filter(x =>
-
-      (x.Permissao || '')
-      .toLowerCase()
-      .includes('full')
-
-    ).length;
-
-  document
-  .getElementById('riskRead')
-  .innerText = read;
-
-  document
-  .getElementById('riskModify')
-  .innerText = modify;
-
-  document
-  .getElementById('riskFull')
-  .innerText = full;
-
-  /*
-  ==============================================
-  PIZZA
-  ==============================================
-  */
-
-  permChart = new Chart(
-
-    document.getElementById(
-      'permChart'
-    ),
-
-    {
-
-      type:'doughnut',
-
-      data:{
-
-        labels:[
-          'Read',
-          'Modify',
-          'Full'
-        ],
-
-        datasets:[{
-
-          data:[
-            read,
-            modify,
-            full
-          ],
-
-          backgroundColor:[
-            '#22c55e',
-            '#f59e0b',
-            '#ef4444'
-          ]
-
-        }]
-
-      },
-
-      options:{
-
-        responsive:true,
-
-        maintainAspectRatio:false,
-
-        plugins:{
-          legend:{
-            position:'bottom'
-          }
-        }
-
-      }
-
-    }
-
-  );
-
-  /*
-  ==============================================
-  RISCO
-  ==============================================
-  */
-
-  riskChart = new Chart(
-
-    document.getElementById(
-      'riskChart'
-    ),
-
-    {
-
-      type:'bar',
-
-      data:{
-
-        labels:[
-          'Baixo',
-          'Médio',
-          'Crítico'
-        ],
-
-        datasets:[{
-
-          label:'Permissões',
-
-          data:[
-            read,
-            modify,
-            full
-          ],
-
-          backgroundColor:[
-            '#22c55e',
-            '#f59e0b',
-            '#ef4444'
-          ],
-
-          borderRadius:10
-
-        }]
-
-      },
-
-      options:{
-
-        responsive:true,
-
-        maintainAspectRatio:false,
-
-        indexAxis:'y',
-
-        plugins:{
-          legend:{
-            display:false
-          }
-        }
-
-      }
-
-    }
-
-  );
-
-}
-
-/*
-==================================================
-ÁRVORE
+ÁRVORE HIERÁRQUICA POR USUÁRIO
 ==================================================
 */
 
@@ -463,13 +299,17 @@ function renderTree(
 ){
 
   const tree =
-    document.getElementById(
-      'tree'
-    );
+    document.getElementById('tree');
 
   tree.innerHTML = '';
 
-  const treeData = {};
+  /*
+  ==========================================
+  AGRUPA POR USUÁRIO
+  ==========================================
+  */
+
+  const users = {};
 
   data.forEach(item => {
 
@@ -482,33 +322,54 @@ function renderTree(
       !searchable.includes(filter)
     ) return;
 
+    const login =
+      item.UsuarioLogin || 'N/A';
+
+    const nome =
+
+      item.Nome ||
+      item.NomeCompleto ||
+      item.DisplayName ||
+      '';
+
+    if(!users[login]){
+
+      users[login] = {
+        nome:nome,
+        tree:{}
+      };
+
+    }
+
     /*
+    ======================================
     REMOVE SERVIDOR
+    ======================================
     */
 
-    let cleanedPath =
+    let pasta =
       item.Pasta || '';
 
-    cleanedPath = cleanedPath.replace(
+    pasta = pasta.replace(
       /^\\\\[^\\]+\\[^\\]+\\/i,
       ''
     );
 
     const folders =
-      cleanedPath
+      pasta
       .split(/\\\\|\\/g)
       .filter(Boolean);
 
     let current =
-      treeData;
+      users[login].tree;
 
     folders.forEach(folder => {
 
       if(!current[folder]){
 
         current[folder] = {
-          __items:[],
-          __children:{}
+          __children:{},
+          __items:[]
         };
 
       }
@@ -519,45 +380,46 @@ function renderTree(
 
     });
 
-    const lastFolder =
-      folders[folders.length - 1];
+    /*
+    ======================================
+    ADICIONA ITEM NA ÚLTIMA PASTA
+    ======================================
+    */
 
-    if(lastFolder){
+    let ref =
+      users[login].tree;
 
-      let folderRef =
-        treeData;
+    folders.forEach((folder,index) => {
 
-      folders.forEach(folder => {
+      if(index === folders.length - 1){
 
-        folderRef =
-          folderRef[folder];
+        ref[folder]
+        .__items
+        .push(item);
 
-        if(folder !== lastFolder){
+      }
 
-          folderRef =
-            folderRef.__children;
+      else{
 
-        }
+        ref =
+          ref[folder]
+          .__children;
 
-      });
+      }
 
-      folderRef
-      .__items
-      .push(item);
-
-    }
+    });
 
   });
 
   /*
-  ==============================================
-  RENDERIZA
-  ==============================================
+  ==========================================
+  CRIA NÓ PASTA
+  ==========================================
   */
 
   function createFolderNode(
-    name,
-    data,
+    folderName,
+    folderData,
     level = 0
   ){
 
@@ -574,7 +436,7 @@ function renderTree(
       'folder-title';
 
     title.innerHTML =
-      `📁 ${name}`;
+      `📁 ${folderName}`;
 
     wrapper.appendChild(title);
 
@@ -585,14 +447,14 @@ function renderTree(
       'none';
 
     /*
-    ==========================================
+    ======================================
     SUBPASTAS
-    ==========================================
+    ======================================
     */
 
     Object.entries(
-      data.__children
-    ).forEach(([childName, childData]) => {
+      folderData.__children
+    ).forEach(([childName,childData]) => {
 
       content.appendChild(
 
@@ -607,9 +469,9 @@ function renderTree(
     });
 
     /*
-    ==========================================
-    NÃO MOSTRA PERMISSÃO NA RAIZ
-    ==========================================
+    ======================================
+    NÃO MOSTRA PERMISSÕES NA RAIZ
+    ======================================
     */
 
     const isRoot =
@@ -617,7 +479,14 @@ function renderTree(
 
     if(!isRoot){
 
-      data.__items.forEach(item => {
+      /*
+      ====================================
+      PERMISSÕES
+      ====================================
+      */
+
+      folderData.__items
+      .forEach(item => {
 
         let permClass =
           'permission';
@@ -661,44 +530,21 @@ function renderTree(
 
         div.innerHTML = `
 
-          <strong>
-            ${item.UsuarioLogin || 'N/A'}
-          </strong>
-
-          <div style="
-            color:#94a3b8;
-            margin-top:4px;
-            font-size:12px;
-          ">
-
-            ${
-              item.Nome ||
-              item.NomeCompleto ||
-              item.DisplayName ||
-              ''
-            }
-
-          </div>
-
           <div class="grid">
-
-            <div class="info">
-
-              <span>Grupo</span>
-
-              ${
-                item.GrupoPermissao || ''
-              }
-
-            </div>
 
             <div class="info">
 
               <span>Permissão</span>
 
-              ${
-                item.Permissao || ''
-              }
+              ${item.Permissao || ''}
+
+            </div>
+
+            <div class="info">
+
+              <span>Grupo</span>
+
+              ${item.GrupoPermissao || ''}
 
             </div>
 
@@ -713,9 +559,9 @@ function renderTree(
     }
 
     /*
-    ==========================================
+    ======================================
     EXPANDIR
-    ==========================================
+    ======================================
     */
 
     title.addEventListener(
@@ -740,17 +586,85 @@ function renderTree(
 
   }
 
-  Object.entries(treeData)
-  .forEach(([name, data]) => {
+  /*
+  ==========================================
+  RENDERIZA USUÁRIOS
+  ==========================================
+  */
 
-    tree.appendChild(
+  Object.entries(users)
+  .forEach(([login,userData]) => {
 
-      createFolderNode(
-        name,
-        data
-      )
+    const userWrapper =
+      document.createElement('div');
 
+    userWrapper.className =
+      'folder';
+
+    const userTitle =
+      document.createElement('div');
+
+    userTitle.className =
+      'folder-title';
+
+    userTitle.innerHTML = `
+
+      👤 ${login}
+
+      <div style="
+        color:#94a3b8;
+        font-size:12px;
+        margin-top:4px;
+        font-weight:normal;
+      ">
+
+        ${userData.nome}
+
+      </div>
+
+    `;
+
+    userWrapper.appendChild(userTitle);
+
+    const userContent =
+      document.createElement('div');
+
+    userContent.style.display =
+      'none';
+
+    Object.entries(userData.tree)
+    .forEach(([folderName,folderData]) => {
+
+      userContent.appendChild(
+
+        createFolderNode(
+          folderName,
+          folderData
+        )
+
+      );
+
+    });
+
+    userTitle.addEventListener(
+      'click',
+      () => {
+
+        userContent.style.display =
+
+          userContent.style.display ===
+          'none'
+
+            ? 'block'
+
+            : 'none';
+
+      }
     );
+
+    userWrapper.appendChild(userContent);
+
+    tree.appendChild(userWrapper);
 
   });
 

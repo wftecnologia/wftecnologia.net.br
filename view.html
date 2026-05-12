@@ -11,14 +11,15 @@
   >
 
   <title>
-    Dashboard de Permissões
+    Relatório de Permissões
   </title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -35,9 +36,9 @@
     <div class="title">
 
       <h1>
-        Dashboard de Permissões
+        Relatório de Permissões
       </h1>
-      
+
     </div>
 
     <div class="actions">
@@ -55,9 +56,7 @@
       >
 
       <button id="generatePDF">
-
         Gerar PDF
-
       </button>
 
     </div>
@@ -68,87 +67,6 @@
     class="cards"
     id="stats"
   ></div>
-
-  <div class="charts">
-
-    <div class="chart-box">
-
-      <h3>
-        Distribuição de Permissões
-      </h3>
-
-      <div class="pie-wrapper">
-
-        <canvas id="permChart"></canvas>
-
-      </div>
-
-      <div class="risk-grid">
-
-        <div class="risk-card risk-read">
-
-          <div class="risk-title">
-            Read
-          </div>
-
-          <div
-            id="riskRead"
-            class="risk-number"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="risk-card risk-modify">
-
-          <div class="risk-title">
-            Modify
-          </div>
-
-          <div
-            id="riskModify"
-            class="risk-number"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="risk-card risk-full">
-
-          <div class="risk-title">
-            Full
-          </div>
-
-          <div
-            id="riskFull"
-            class="risk-number"
-          >
-            0
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="chart-box">
-
-      <h3>
-        Permissões por Nível de Risco
-      </h3>
-
-      <div style="height:350px;">
-
-        <canvas id="riskChart"></canvas>
-
-      </div>
-
-    </div>
-
-  </div>
 
   <div class="tree-box">
 

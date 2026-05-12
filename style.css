@@ -29,11 +29,6 @@ body{
   font-size:34px;
 }
 
-.title p{
-  margin-top:8px;
-  color:#94a3b8;
-}
-
 .actions{
   display:flex;
   gap:10px;
@@ -83,87 +78,56 @@ button{
   font-size:38px;
 }
 
-.charts{
-  display:grid;
-  grid-template-columns:420px 1fr;
-  gap:20px;
-  margin-bottom:25px;
-}
-
-.chart-box{
-  background:#081633;
-  border-radius:24px;
-  padding:30px;
-}
-
-.chart-box h3{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.pie-wrapper{
-  width:240px;
-  height:240px;
-  margin:auto;
-}
-
-.risk-grid{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.risk-card{
-  background:#1e293b;
-  border-radius:18px;
-  padding:20px;
-  text-align:center;
-}
-
-.risk-read{
-  border-left:5px solid #22c55e;
-}
-
-.risk-modify{
-  border-left:5px solid #f59e0b;
-}
-
-.risk-full{
-  border-left:5px solid #ef4444;
-}
-
-.risk-title{
-  color:#94a3b8;
-  font-size:13px;
-}
-
-.risk-number{
-  margin-top:10px;
-  font-size:34px;
-  font-weight:bold;
-}
-
 .tree-box{
   background:#081633;
   border-radius:24px;
   padding:30px;
 }
 
+.tree-box h2{
+  margin-bottom:20px;
+}
+
+.folder{
+  margin-left:20px;
+  padding-left:15px;
+  border-left:1px solid rgba(255,255,255,0.08);
+}
+
 .folder-title{
+
   cursor:pointer;
-  padding:6px 0;
+
+  padding:8px 10px;
+
+  border-radius:10px;
+
+  transition:0.2s;
+
   font-size:15px;
+
   font-weight:600;
 }
 
+.folder-title:hover{
+  background:#1e293b;
+}
+
 .permission{
+
   background:#16233d;
+
   border-radius:18px;
+
   padding:18px;
+
   margin-top:12px;
-  margin-bottom:12px;
+
   border-left:5px solid #3b82f6;
+}
+
+.permission:hover{
+  background:#1d2d4d;
 }
 
 .perm-read{
@@ -189,10 +153,6 @@ button{
   background:#1e293b;
   padding:14px;
   border-radius:14px;
-}
-
-.tree-box h2{
-  margin-bottom:20px;
 }
 
 .info span{
